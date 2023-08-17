@@ -1,0 +1,39 @@
+
+
+<nav class="navbar navbar-light" style="background-color: #0d314e">
+  <div class="container">
+    <a class="navbar-brand" href="">
+      <span style="color:#1c8313; font-weight: bold; font-size: 24px;">Check</span>
+    </a>
+      <ul class="nav nav-pills">
+
+        {% if request.user.is_authenticated %}
+        <li class="nav-item">
+        <a class="nav-link link-light {% if view_name == 'files:files_history' %}active{% endif %}" href="{% url 'files:files_history' %}">История</a>
+    </li>
+
+        <li>
+          <span style="color:#ffffff; font-weight: bold; font-size: 15px;">Пользователь: {{ user.email }}
+            </span>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link link-light {% if view_name  == 'users:logout' %}active{% endif %}"
+             href="{% url 'users:logout' %}"
+          >Выйти</a>
+        </li>
+        {% else %}
+        <li class="nav-item">
+          <a class="nav-link link-light {% if view_name  == 'users:login' %}active{% endif %}"
+             href="{% url 'users:login' %}"
+          >Войти</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link link-light {% if view_name  == 'users:signup' %}active{% endif %}"
+             href="{% url 'users:signup' %}"
+          >Регистрация</a>
+        </li>
+        {% endif %}
+
+      </ul>
+  </div>
+</nav>

@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}История файлов{% endblock title %}
+
+{% block content %}
+<table class="table table-success table-striped-columns">
+    <thead>
+        <tr>
+            <th>Файл</th>
+            <th>Состояние файла</th>
+            <th>Оповещение</th>
+            <th>Дата загрузки</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for file in object_list %}
+            <tr>
+                <td>{{ file.file }}</td>
+                <td>{{ file.file_state }}</td>
+                <td>{{ file.notification }}</td>
+                <td>{{ file.uploaded_date }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}
