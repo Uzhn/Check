@@ -13,9 +13,9 @@
         </tr>
     </thead>
     <tbody>
-        {% for file in object_list %}
+        {% for file in files %}
             <tr>
-                <td>{{ file.file }}</td>
+                <td>{{ file }}</td>
                 <td>{{ file.file_state }}</td>
                 <td>{{ file.notification }}</td>
                 <td>{{ file.uploaded_date }}</td>

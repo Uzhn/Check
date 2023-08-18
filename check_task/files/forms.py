@@ -1,6 +1,7 @@
 from django import forms
 
 from files.models import UploadedFile
+from users.models import CustomUser
 
 
 class UploadFileForm(forms.ModelForm):
