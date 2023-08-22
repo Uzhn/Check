@@ -3,25 +3,31 @@
 {% block title %}История файлов{% endblock title %}
 
 {% block content %}
-<table class="table table-success table-striped-columns">
+<div class="container mt-4">
+  <h1>История файлов</h1>
+  <table class="table caption-top">
     <thead>
-        <tr>
-            <th>Файл</th>
-            <th>Состояние файла</th>
-            <th>Оповещение</th>
-            <th>Дата загрузки</th>
-        </tr>
+      <tr>
+        <th scope="col">№</th>
+        <th scope="col">Файл</th>
+        <th scope="col">Состояние файла</th>
+        <th scope="col">Оповещение</th>
+        <th scope="col">Дата загрузки</th>
+      </tr>
     </thead>
     <tbody>
-        {% for file in files %}
-            <tr>
-                <td>{{ file }}</td>
-                <td>{{ file.file_state }}</td>
-                <td>{{ file.notification }}</td>
-                <td>{{ file.uploaded_date }}</td>
-            </tr>
-        {% endfor %}
+      {% for file in files %}
+        <tr>
+          <th scope="row">{{ forloop.counter }}</th>
+          <td>
+            <a href="{% url 'files:file_detail' file.pk %}">{{ file }}</a>
+          </td>
+          <td>{{ file.file_state }}</td>
+          <td>{{ file.notification }}</td>
+          <td>{{ file.uploaded_date }}</td>
+        </tr>
+      {% endfor %}
     </tbody>
-</table>
-
+  </table>
+</div>
 {% endblock %}

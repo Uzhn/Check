@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}Подробности файла{% endblock title %}
+
+{% block content %}
+<div class="container mt-4">
+  <p>
+    <a href="{% url 'files:files_history' %}" class="btn btn-info">Вернуться к истории файлов</a>
+  </p>
+  <h1>Подробности файла</h1>
+
+  <table class="table table-bordered">
+    <tbody>
+      <tr>
+        <th>Имя файла</th>
+        <td>{{ file }}</td>
+      </tr>
+      <tr>
+        <th>Состояние файла</th>
+        <td>{{ file.file_state }}</td>
+      </tr>
+      <tr>
+        <th>Оповещение</th>
+        <td>{{ file.notification }}</td>
+      </tr>
+      <tr>
+        <th>Дата загрузки</th>
+        <td>{{ file.uploaded_date }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="text-center">
+    <a href="{% url 'files:file_reload' file.pk %}" class="btn btn-primary">Перезаписать</a>
+    <a href="{% url 'files:file_delete' file.pk %}" class="btn btn-danger">Удалить</a>
+  </div>
+</div>
+{% endblock %}

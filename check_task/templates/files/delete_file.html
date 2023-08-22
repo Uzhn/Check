@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}Удалить файл{% endblock title %}
+
+{% block content %}
+<div class="container mt-4">
+  <h1>Удалить файл "{{ file }}"</h1>
+  <div class="module">
+    <form action="" method="post">
+      {% csrf_token %}
+      <p class="lead">Вы уверены, что хотите удалить файл "{{ file }}"?</p>
+      <button type="submit" class="btn btn-danger">Удалить</button>
+    </form>
+
+    <form action="{% url 'files:files_history' %}" method="get">
+      <button type="submit" class="btn btn-secondary">Нет</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

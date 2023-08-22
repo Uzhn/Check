@@ -121,3 +121,7 @@ LOGIN_REDIRECT_URL = 'files:files_history'
 
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+REDIS_URL = 'redis://0.0.0.0:6379/'
+CELERY_BROKER_URL = REDIS_URL + '/0'
