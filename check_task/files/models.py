@@ -18,6 +18,7 @@ class UploadedFile(models.Model):
     file = models.FileField(upload_to='uploaded_files/')
     file_state = models.CharField(choices=StateFile.choices, default=StateFile.NEW, max_length=10)
     notification = models.BooleanField(default=False)
+    errors = models.TextField(blank=True, null=True)
     uploaded_date = models.DateTimeField(auto_now_add=True)
 
     class Meta:

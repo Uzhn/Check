@@ -10,7 +10,6 @@ from files.models import UploadedFile, StateFile
 from files.forms import UploadFileForm
 from services.extension import FileCheck
 from services.exceptions import ExtensionError
-from files.tasks import check_file_with_flake8
 
 
 class UploadFileCreateView(CreateView, FileCheck):

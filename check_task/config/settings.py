@@ -119,9 +119,12 @@ LOGIN_URL = 'users:login'
 LOGIN_REDIRECT_URL = 'files:files_history'
 # LOGOUT_REDIRECT_URL = 'users:login'
 
+EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'sent_emails')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
-REDIS_URL = 'redis://0.0.0.0:6379/'
+# Celery settings
+REDIS_URL = 'redis://localhost:6379/'
 CELERY_BROKER_URL = REDIS_URL + '/0'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379'
