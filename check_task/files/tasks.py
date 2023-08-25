@@ -1,46 +1,33 @@
 import subprocess
 
 from django.conf import settings
-from django.db.models import Q
 from config.celery import app
-from django.core.mail import send_mail
 
 from files.models import UploadedFile, StateFile
+from services.helper import format_error_lines
+from services.logic import send_notification
 
 
 @app.task()
 def check_file_with_flake8_task():
-    files = UploadedFile.objects.filter(
-        Q(file_state=StateFile.NEW) | Q(file_state=StateFile.RELOAD),
-        notification=False
-    )
+    files = UploadedFile.objects.filter(notification=False)
     for file in files:
         file_path = settings.MEDIA_ROOT + '/' + str(file.file)
         user_email = file.user.email
-
-        try:
-            result = subprocess.run(['flake8', file_path])
-        except FileNotFoundError as error:
-            return error.output.decode()
+        result = subprocess.run(['flake8', file_path], stdout=subprocess.PIPE)
         if result.returncode != 0:
-            file.error = result
+            split_errors = result.stdout.decode().splitlines()
+            formatted_lines = format_error_lines(split_errors)
+            file.errors = formatted_lines
             file.save()
-            error_mesage = 'Есть ошибки!!!'
-            send_notification_task.delay(user_email, file, error_mesage)
+            error_message = 'Есть ошибки!!!'
+            send_notification_task.delay(user_email, file.id, error_message)
         else:
             message = 'Ошибок нет!!!'
-            send_notification_task.delay(user_email, file, message)
+            send_notification_task.delay(user_email, file.id, message)
 
 
 @app.task()
-def send_notification_task(email, file, messsage):
-    send_mail(
-        "Результат проверки",
-        f"Файл {file} проверен.\n{messsage}",
-        "support@example.com",
-        [email],
-        fail_silently=False,
-    )
-    file_checked = UploadedFile.objects.get(id=file.id)
-    file_checked.notification = True
-    file_checked.save()
+def send_notification_task(email, file_id, message):
+    send_notification(email, file_id, message)
+

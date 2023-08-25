@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}App title {% endblock %}</title>
-    <!--- Bootstrap load ---->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
           rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
@@ -20,6 +19,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
             integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
             crossorigin="anonymous"></script>
+
 
     <style>
     body {
@@ -38,11 +38,39 @@
       {% block content %}
       {% endblock %}
     </main>
-    <footer>
+    <footer id="myFooter">
       {% include 'includes/footer.html' %}
     </footer>
 <script>
     document.getElementById("currentYear").textContent = new Date().getFullYear();
     </script>
+<script>
+    function adjustFooter() {
+        const footer = document.getElementById("myFooter");
+        const body = document.body;
+        const html = document.documentElement;
+
+        const windowHeight = window.innerHeight;
+        const bodyHeight = Math.max(
+            body.scrollHeight,
+            body.offsetHeight,
+            html.clientHeight,
+            html.scrollHeight,
+            html.offsetHeight
+        );
+
+        if (windowHeight >= bodyHeight) {
+            footer.style.position = "fixed";
+            footer.style.bottom = "0";
+            footer.style.left = "0";
+            footer.style.width = "100%";
+            footer.style.textAlign = "center";
+        } else {
+            footer.style.position = "static";
+        }
+    }
+    window.addEventListener("load", adjustFooter);
+    window.addEventListener("resize", adjustFooter);
+</script>
 </body>
 </html>

@@ -17,13 +17,27 @@
     </thead>
     <tbody>
       {% for file in files %}
-        <tr>
+        <tr class="{% if file.errors %}table-danger{% endif %}">
           <th scope="row">{{ forloop.counter }}</th>
           <td>
             <a href="{% url 'files:file_detail' file.pk %}">{{ file }}</a>
           </td>
-          <td>{{ file.file_state }}</td>
-          <td>{{ file.notification }}</td>
+            <td>
+                {% if file.file_state == "new" %}
+                    Новый
+                {% elif file.file_state == "reload" %}
+                    Перезаписан
+                {% else %}
+                    {{ file.file_state }}
+                {% endif %}
+            </td>
+          <td>
+            {% if file.notification %}
+              <span class="text-success">&#10003; Отправлено</span>
+            {% else %}
+              <span class="text-danger">&#10007; Не отправлено</span>
+            {% endif %}
+          </td>
           <td>{{ file.uploaded_date }}</td>
         </tr>
       {% endfor %}

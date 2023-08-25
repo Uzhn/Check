@@ -17,11 +17,25 @@
       </tr>
       <tr>
         <th>Состояние файла</th>
-        <td>{{ file.file_state }}</td>
+          <td>
+              {% if file.file_state == "new" %}
+                  Новый
+              {% elif file.file_state == "reload" %}
+                  Перезаписан
+              {% else %}
+                  {{ file.file_state }}
+              {% endif %}
+          </td>
       </tr>
       <tr>
         <th>Оповещение</th>
-        <td>{{ file.notification }}</td>
+        <td>
+            {% if file.notification %}
+              <span class="text-success">&#10003; Отправлено</span>
+            {% else %}
+              <span class="text-danger">&#10007; Не отправлено</span>
+            {% endif %}
+          </td>
       </tr>
       <tr>
         <th>Дата загрузки</th>
@@ -34,5 +48,17 @@
     <a href="{% url 'files:file_reload' file.pk %}" class="btn btn-primary">Перезаписать</a>
     <a href="{% url 'files:file_delete' file.pk %}" class="btn btn-danger">Удалить</a>
   </div>
+
+{% if file.errors %}
+  <div class="alert alert-danger mt-3">
+    <h4 class="alert-heading">Ошибки</h4>
+    <ul>
+      {% for error in errors %}
+          <li>{{ error }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% endif %}
+
 </div>
 {% endblock %}

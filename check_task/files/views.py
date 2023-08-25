@@ -8,7 +8,7 @@ from django.contrib.auth.mixins import PermissionRequiredMixin
 
 from files.models import UploadedFile, StateFile
 from files.forms import UploadFileForm
-from services.extension import FileCheck
+from services.logic import FileCheck
 from services.exceptions import ExtensionError
 
 
@@ -50,6 +50,13 @@ class FileDetailView(DetailView):
         file_id = self.kwargs.get('file_id')
         return UploadedFile.objects.get(id=file_id)
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        file = self.get_object()
+        if file.errors:
+            context['errors'] = eval(file.errors)
+        return context
+
 
 class DeleteFileView(DeleteView):
     model = UploadedFile
@@ -88,6 +95,8 @@ class ReloadFileView(View):
             if form.is_valid():
                 form.save()
                 file.file_state = StateFile.RELOAD
+                file.notification = False
+                file.errors = None
                 file.save()
                 return redirect('files:files_history')
 
