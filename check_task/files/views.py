@@ -95,6 +95,7 @@ class ReloadFileView(View):
             if form.is_valid():
                 form.save()
                 file.file_state = StateFile.RELOAD
+                file.is_checked = False
                 file.notification = False
                 file.errors = None
                 file.save()

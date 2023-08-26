@@ -8,7 +8,6 @@ class StateFile(models.TextChoices):
     """Состояния файла."""
     NEW = 'new'
     RELOAD = 'reload'
-    DELETE = 'delete'
 
 
 class UploadedFile(models.Model):
@@ -17,6 +16,7 @@ class UploadedFile(models.Model):
                              blank=True, null=True)
     file = models.FileField(upload_to='uploaded_files/')
     file_state = models.CharField(choices=StateFile.choices, default=StateFile.NEW, max_length=10)
+    is_checked = models.BooleanField(default=False)
     notification = models.BooleanField(default=False)
     errors = models.TextField(blank=True, null=True)
     uploaded_date = models.DateTimeField(auto_now_add=True)
