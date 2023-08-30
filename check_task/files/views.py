@@ -1,3 +1,4 @@
+import datetime
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
@@ -98,6 +99,7 @@ class ReloadFileView(View):
                 file.is_checked = False
                 file.notification = False
                 file.errors = None
+                file.uploaded_date = datetime.datetime.now()
                 file.save()
                 return redirect('files:files_history')
 
